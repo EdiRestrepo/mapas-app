@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MapService, PlacesService } from '../../services';
 import { Feature } from '../../interfaces/places';
+import { Route } from '../../interfaces/directions';
 
 @Component({
   selector: 'app-search-results',
@@ -29,5 +30,18 @@ export class SearchResultsComponent {
     const [lng, lat] = place.center;
     this.mapService.flyTo([lng, lat]);
   }
+
+  getDirections( place: Feature ){
+
+    if( !this.placesService.useLocation ) throw Error('No hay userLocation');
+
+    // this.placesService.deletePlaces();
+
+    const start = this.placesService.useLocation;
+    const end = place.center as [number, number];
+
+    this.mapService.getRouteBetweenPoints(start,  end);
+  }
+
 
 }
